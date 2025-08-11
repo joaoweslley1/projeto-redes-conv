@@ -1,0 +1,48 @@
+services:
+  voip-container-1:
+    image: joaoweslleyif/blink-clt:1.2 # imagem personalizada do blink
+    devices:
+      - /dev/snd:/dev/snd
+    environment:
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=/run/user/1000/pulse/native
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /run/user/1000/pulse:/run/user/1000/pulse
+      - ./keys/cliente1.pem:/usr/share/blink/tls/cliente1.pem # adiciona o certificado do cliente à máquina
+      - ./keys/ca.crt:/usr/share/blink/tls/ca.crt
+      - ./config/hosts:/etc/hosts
+    networks:
+      - redeasterisk
+
+  voip-container-2:
+    image: joaoweslleyif/blink-clt:1.2
+    devices:
+      - /dev/snd:/dev/snd
+    environment:
+      - DISPLAY=${DISPLAY}
+      - PULSE_SERVER=/run/user/1000/pulse/native
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /run/user/1000/pulse:/run/user/1000/pulse
+      - ./keys/cliente2.pem:/usr/share/blink/tls/cliente2.pem
+      - ./keys/ca.crt:/usr/share/blink/tls/ca.crt
+      - ./config/hosts:/etc/hosts
+    networks:
+      - redeasterisk
+
+  asterisk:
+    image: joaoweslleyif/asterisk-srv:1.1 # imagem personalizada do asterisk
+    network_mode: "host"
+    privileged: true
+    volumes:
+      - ./keys/asterisk.crt:/etc/asterisk/keys/asterisk.crt
+      - ./keys/asterisk.pem:/etc/asterisk/keys/asterisk.pem
+#      - ./keys/cliente1.pem:/etc/asterisk/keys/cliente1.pem
+#      - ./keys/cliente2.pem:/etc/asterisk/keys/cliente2.pem
+      - ./keys/ca.crt:/etc/asterisk/keys/ca.crt
+      - ./config/sip.conf:/etc/asterisk/sip.conf
+      - ./config/extensions.conf:/etc/asterisk/extensions.conf
+
+networks:
+  redeasterisk:
