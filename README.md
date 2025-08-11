@@ -34,24 +34,23 @@ Para que o cenário seja executado, é necessário possuir instalado na máquina
 
 ## Execução
 
-1- Habilitar acesso ao servidor X 
+1. Habilitar acesso ao servidor X
 
-	```bash
-	# permite que os containers com interface gráfica sejam executados
-	xhost +x
-	```
+    ```bash
+    # permite que os containers com interface gráfica sejam executados
+    xhost +x
+    ```
 
-2- Incializar cenário
+2. Incializar cenário
 
-	```bash
-	# executa o docker compose sem bloquear o terminal
-	docker compose up -d
-	```
+    ```bash
+    # executa o docker compose sem bloquear o terminal
+    docker compose up -d
+    ```
 
-3- Finalizar cenário
+3. Finalizar cenário
 
-	```bash
-	# executa o docker compose sem bloquear o terminal
-	docker compose down
-	```
-
+    ```bash
+    # executa o docker compose sem bloquear o terminal
+    docker compose down
+    ```
